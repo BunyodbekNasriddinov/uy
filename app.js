@@ -7,7 +7,7 @@ const cookieParser = require("cookie-parser");
 const swaggerUi = require("swagger-ui-express");
 
 const db = require("./modules/postgres");
-const { NODE_ENV, URL } = require("./config");
+const { NODE_ENV, URL, PORT } = require("./config");
 const limiter = require("./modules/rate-limit");
 const swaggerDoc = require("./docs/swagger.json");
 const compression = require("./modules/compression");
@@ -23,7 +23,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-app.use(cors( { origin: "*" }));
+app.use(cors({ origin: "*" }));
 
 // if (NODE_ENV === "production") {
 //   app.use(limiter);
@@ -84,5 +84,7 @@ app.use((err, req, res, next) => {
     message: err + "",
   });
 });
+
+app.listen(PORT, () => console.log("Server running on port " + PORT));
 
 module.exports = app;
