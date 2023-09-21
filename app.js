@@ -11,6 +11,7 @@ const { NODE_ENV, URL, PORT } = require("./config");
 const limiter = require("./modules/rate-limit");
 const swaggerDoc = require("./docs/swagger.json");
 const compression = require("./modules/compression");
+const { generateHash } = require("./modules/bcrypt")
 
 const app = express();
 
