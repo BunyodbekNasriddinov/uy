@@ -5,7 +5,7 @@ const editFullNameValidation = require("../../validations/edit-full-name-validat
 const passwordValidation = require("../../validations/password-validation");
 
 const { generateHash } = require("../../modules/bcrypt");
-const {generateToken} = require("../../modules/jwt");
+const { generateToken } = require("../../modules/jwt");
 
 module.exports = class User {
   static async editFullName(req, res) {
@@ -180,4 +180,23 @@ module.exports = class User {
       })
     }
   }
+
+  static async deleteAccount(req, res) {
+    try {
+      if (req.user.role === "admin") throw new Error("Foydalanuvchi admin huquqiga ega")
+
+      await req.db.users.destroy({ where: { user_id: req.user.user_id } });
+
+      res.status("200").json({
+        ok: true,
+        message: "Delete user account succesfully",
+      });
+    } catch (e) {
+      res.status(400).json({
+        ok: false,
+        message: e.toString().replace("Error:", "").trim(),
+      })
+    }
+  }
+
 };

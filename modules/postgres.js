@@ -155,6 +155,7 @@ module.exports = async function () {
     //   password: hash,
     //   role: "admin",
     //   confirm: true,
+    //   phone: "998905210501"
     // });
 
     await sequelize.sync({ force: false });

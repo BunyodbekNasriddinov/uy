@@ -16,6 +16,7 @@ const {
   editPhone,
   getProfile,
   editPassword,
+  deleteAccount,
 } = require("../controllers/user/user-controller");
 
 const fileUpload = require("express-fileupload");
@@ -36,6 +37,9 @@ router.patch("/edit-phone", editPhone);
 router.get("/profile", getProfile);
 router.get("/logout", LogoutProfile);
 router.patch("/edit-password", editPassword);
+
+router.delete("/delete", deleteAccount);
+
 module.exports = {
   path: "/api/users",
   router,

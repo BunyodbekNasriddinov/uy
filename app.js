@@ -11,7 +11,6 @@ const { NODE_ENV, URL, PORT } = require("./config");
 const limiter = require("./modules/rate-limit");
 const swaggerDoc = require("./docs/swagger.json");
 const compression = require("./modules/compression");
-const { generateHash } = require("./modules/bcrypt")
 
 const app = express();
 
@@ -26,7 +25,7 @@ app.use(cookieParser());
 
 // if (NODE_ENV === "production") {
 //   app.use(limiter);
-//   app.use(cors({ origin: URL }));
+app.use(cors({ origin: "*" }));
 //   app.use(logger("common"));
 // } else {
 //   app.use(cors({ origin: "*" }));
@@ -84,6 +83,6 @@ app.use((err, req, res, next) => {
   });
 });
 
-app.listen(PORT, () => console.log('listening on port ' + PORT));
+app.listen(PORT, () => console.log("Listening on port " + PORT));
 
 module.exports = app;
