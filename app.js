@@ -23,8 +23,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-app.use(cors({ origin: "*" }));
-
 // if (NODE_ENV === "production") {
 //   app.use(limiter);
 //   app.use(cors({ origin: URL }));
@@ -85,6 +83,6 @@ app.use((err, req, res, next) => {
   });
 });
 
-app.listen(PORT, () => console.log("Server running on port " + PORT));
+app.listen(PORT, () => console.log('listening on port ' + PORT));
 
 module.exports = app;

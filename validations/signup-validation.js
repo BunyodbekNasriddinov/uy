@@ -8,7 +8,6 @@ module.exports = Joi.object({
         .pattern(new RegExp("^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$"))
         .error(Error("Invalid name")),
     phone: Joi.string()
-        .pattern(new RegExp("^998[389][01345789][0-9]{7}$"))
         .error(Error("Invalid phone")),
     password: Joi.string()
         .required()

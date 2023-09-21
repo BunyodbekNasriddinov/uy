@@ -12,7 +12,6 @@ module.exports = class Models {
       },
       phone: {
         type: Sequelize.DataTypes.STRING(12),
-        is: /^998[389][01345789][0-9]{7}$/,
         unique: true,
         allowNull: false,
       },
@@ -159,7 +158,6 @@ module.exports = class Models {
       },
       phone: {
         type: Sequelize.DataTypes.STRING(12),
-        is: /^998[389][01345789][0-9]{7}$/,
         allowNull: false,
       },
       status: {
