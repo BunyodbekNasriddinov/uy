@@ -543,7 +543,7 @@ module.exports = class Admin {
       await req.db.ads.create({
         link,
         img_web: `/images/uploads/${img_web[0].filename}`,
-        img_mob: `/images/uploads/${img_web[0].filename}`,
+        img_mob: `/images/uploads/${img_mob[0].filename}`,
       });
 
       const totalCount = await req.db.ads.count();
@@ -570,18 +570,6 @@ module.exports = class Admin {
       });
     }
   }
-
-  // static async getChat(req, res) {
-  //   try {
-  //     res.render("admin/chat");
-  //   } catch (e) {
-  //     console.log(e + "");
-  //     res.status(400).json({
-  //       ok: false,
-  //       message: e + "",
-  //     });
-  //   }
-  // }
 
   static async deleteAds(req, res) {
     try {
@@ -621,41 +609,101 @@ module.exports = class Admin {
       });
     }
   }
-  // static async getStat(req, res) {
-  //   try {
-  //     const authInfo = await authService(SMS_EMAIL, SMS_PASSWORD);
-  //
-  //     var qs = require("qs");
-  //     var data = qs.stringify({
-  //       year: "2018",
-  //       user_id: "5",
-  //     });
-  //
-  //     if (authInfo.success) {
-  //       var config = {
-  //         method: "post",
-  //         maxBodyLength: Infinity,
-  //         url: "https://notify.eskiz.uz/api/user/totals",
-  //         headers: {
-  //           Authorization: `Bearer ${authInfo.data.token}`,
-  //         },
-  //         data: data,
-  //       };
-  //     }
-  //
-  //     axios(config)
-  //       .then(function (response) {
-  //         console.log(JSON.stringify(response.data));
-  //       })
-  //       .catch(function (error) {
-  //         console.log(error);
-  //       });
-  //   } catch (e) {
-  //     console.log(e + "");
-  //     res.status(400).json({
-  //       ok: false,
-  //       message: e + "",
-  //     });
-  //   }
-  // }
+
+  //   Mini Ads
+  // Read
+  static async getMinAds(req, res) {
+    try {
+      let { c_page } = req.query;
+
+      if (!c_page) {
+        c_page = 1;
+      }
+      if (isNaN(Number(c_page))) {
+        throw new Error("invalid c_page options");
+      }
+
+      let ads = await req.db.min_ads.findAll({
+        raw: true,
+        order: [["createdAt", "ASC"]],
+        limit: 6,
+        offset: 6 * (c_page - 1),
+      });
+
+      res.render("admin/min-ads", {
+        ok: true,
+        title: "Reklama",
+        ads,
+      });
+    } catch (e) {
+      res.status(400).json({
+        ok: false,
+        message: e + "",
+      });
+    }
+  }
+
+  // Create
+  static async postMinAds(req, res) {
+    try {
+      const { link } = await adsValidation.validateAsync(req.body);
+      const { img_web, img_mob } = req.files;
+
+      if (!img_web || !img_mob) {
+        return res.status(400).json({
+          ok: false,
+          message: "Sayt va mobile ilova fayllari yuborilmagan",
+        });
+      }
+
+      await req.db.min_ads.destroy({
+        where: {},
+        truncate: true
+      });
+
+      await req.db.min_ads.create({
+        link,
+        img_web: `/images/uploads/${img_web[0].filename}`,
+        img_mob: `/images/uploads/${img_mob[0].filename}`,
+      });
+
+      let ads = await req.db.min_ads.findAll({
+        raw: true,
+        order: [["createdAt", "ASC"]],
+        limit: 4,
+      });
+
+      res.render("admin/min-ads", {
+        ok: true,
+        title: "Reklama",
+        ads,
+        message: "Reklama qo'shildi",
+      });
+    } catch (e) {
+      console.log(e + "");
+      res.render("admin/ads", {
+        ok: false,
+        title: "Reklama",
+        message: e + "",
+      });
+    }
+  }
+
+  // Delete
+  static async deleteMinAds(req, res) {
+    try {
+      await req.db.min_ads.destroy({
+        where: {},
+        truncate: true
+      });
+
+      res.redirect("/admin/min-ads")
+    } catch (e) {
+      console.log(e + "");
+      res.status(400).json({
+        ok: false,
+        message: e + "",
+      });
+    }
+  }
 };

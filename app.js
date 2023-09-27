@@ -7,7 +7,7 @@ const cookieParser = require("cookie-parser");
 const swaggerUi = require("swagger-ui-express");
 
 const db = require("./modules/postgres");
-const { NODE_ENV, URL, PORT } = require("./config");
+const { NODE_ENV, URL } = require("./config");
 const limiter = require("./modules/rate-limit");
 const swaggerDoc = require("./docs/swagger.json");
 const compression = require("./modules/compression");
@@ -25,10 +25,10 @@ app.use(cookieParser());
 
 // if (NODE_ENV === "production") {
 //   app.use(limiter);
-app.use(cors({ origin: "*" }));
+//   app.use(cors({ origin: URL }));
 //   app.use(logger("common"));
 // } else {
-//   app.use(cors({ origin: "*" }));
+app.use(cors({ origin: "*" }));
 //   app.use(logger("dev"));
 // }
 

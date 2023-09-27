@@ -15,6 +15,9 @@ const {
   getAds,
   postAds,
   deleteAds,
+  getMinAds,
+  postMinAds,
+  deleteMinAds,
 } = require("../controllers/admin/admin-controller");
 
 const adminMiddleware = require("../middlewares/admin-middleware");
@@ -46,6 +49,10 @@ router.get("/users/posts/:user_id", getUserPosts);
 router.get("/ads", getAds);
 router.post("/ads", uploadAdsMiddleware, postAds);
 router.get("/ads/delete/:id", deleteAds);
+
+router.get("/min-ads", getMinAds);
+router.post("/min-ads", uploadAdsMiddleware, postMinAds);
+router.get("/min-ads/delete", deleteMinAds);
 
 router.get("/logout", (req, res) => {
   res.clearCookie("token").redirect("/");

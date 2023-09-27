@@ -300,4 +300,25 @@ module.exports = class Models {
       },
     });
   }
+
+  static async MinAds(Sequelize, sequelize) {
+    return sequelize.define("min_ads", {
+      id: {
+        type: Sequelize.DataTypes.UUID,
+        defaultValue: Sequelize.DataTypes.UUIDV4,
+        primaryKey: true,
+      },
+      link: {
+        type: Sequelize.DataTypes.STRING,
+      },
+      img_web: {
+        type: Sequelize.DataTypes.STRING,
+        allowNull: false,
+      },
+      img_mob: {
+        type: Sequelize.DataTypes.STRING,
+        allowNull: false,
+      },
+    });
+  }
 };

@@ -23,6 +23,7 @@ module.exports = async function () {
     db.messages = await Model.Messages(Sequelize, sequelize);
     db.chats = await Model.Chats(Sequelize, sequelize);
     db.ads = await Model.Ads(Sequelize, sequelize);
+    db.min_ads = await Model.MinAds(Sequelize, sequelize);
 
     await db.users.hasOne(db.attempts, {
       foreignKey: {
